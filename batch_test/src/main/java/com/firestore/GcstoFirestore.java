@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 public class GcstoFirestore extends DoFn<String, String> {
     private static final int BATCH_SIZE = 1000; // Firestore's max batch size
-    // Number of lines to read in each chunk
+  
 
     @ProcessElement
     public void processElement(ProcessContext c) throws Exception {
