@@ -14,11 +14,7 @@ public class MainClass {
         // Create pipeline options
         params options = PipelineOptionsFactory.fromArgs(args).as(params.class);
          
-         options.setRegion("us-east4");
-         options.setDiskSizeGb(100);
-         options.setWorkerMachineType("n2-standard-128");
-         options.setNumWorkers(3);
-         options.setRunner(org.apache.beam.runners.dataflow.DataflowRunner.class);
+        options.setRunner(org.apache.beam.runners.dataflow.DataflowRunner.class);
           
         
         
