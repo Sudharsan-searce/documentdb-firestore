@@ -15,20 +15,28 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class GcstoFirestore extends DoFn<String, String> {
-    private static final int BATCH_SIZE = 1000; // Firestore's max batch size
-  
+   
+    private final String pro_id,db_name,collection_name,batch_size;
+
+
+    public GcstoFirestore(String pro_id,String db_name,String collection_name,String batch_size) {
+        this.pro_id=pro_id;
+        this.db_name=db_name;
+        this.collection_name=collection_name;
+        this.batch_size=batch_size;
+    }
 
     @ProcessElement
     public void processElement(ProcessContext c) throws Exception {
                 // Initialize Firestore
         Firestore firestore = FirestoreOptions.getDefaultInstance()
             .toBuilder()
-            .setProjectId("gcp-firestore-423907")
-            .setDatabaseId("firestore-poc")
+            .setProjectId(pro_id)
+            .setDatabaseId(db_name)
             .build()
             .getService();
-
-        CollectionReference collection = firestore.collection("metadata");
+        
+        CollectionReference collection = firestore.collection(collection_name);
         Gson gson = new Gson();
 
         List<String> jsonLines = new ArrayList<>();
@@ -38,6 +46,8 @@ public class GcstoFirestore extends DoFn<String, String> {
        
          processChunk(jsonLines, collection, gson);
          firestore.shutdown();
+         
+         
          
          try {
             firestore.close();
@@ -57,7 +67,7 @@ public class GcstoFirestore extends DoFn<String, String> {
             // Parse each JSON object individually
             Map<String, Object> document = gson.fromJson(json, Map.class);
             // document.remove("versions");
-            // document.remove("authors_parsed");
+            document.remove("authors_parsed");
 
             // Create a new document reference
             DocumentReference docRef = collection.document();
@@ -65,7 +75,7 @@ public class GcstoFirestore extends DoFn<String, String> {
             count++;
 
             // If batch size limit is reached, create a new batch
-            if (count == BATCH_SIZE) {
+            if (count == Integer.parseInt(batch_size)) {
                 batches.add(batch);
                 batch = collection.getFirestore().batch();
                 count = 0;

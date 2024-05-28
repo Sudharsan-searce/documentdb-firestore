@@ -12,8 +12,8 @@ import org.apache.beam.sdk.transforms.DoFn;
 public class MainClass {
        public static void main(String[] args) {
         // Create pipeline options
-        DataflowPipelineOptions options = PipelineOptionsFactory.fromArgs(args).as(DataflowPipelineOptions.class);
-         options.setProject("gcp-firestore-423907");
+        params options = PipelineOptionsFactory.fromArgs(args).as(params.class);
+         
          options.setRegion("us-east4");
          options.setDiskSizeGb(100);
          options.setWorkerMachineType("n2-standard-128");
@@ -21,14 +21,19 @@ public class MainClass {
          options.setRunner(org.apache.beam.runners.dataflow.DataflowRunner.class);
           
         
-         String gcsPath = "gs://gcp-firestore-storage/MongoDB_dumps/meta.json";
+        
         // Create the pipeline
         Pipeline pipeline = Pipeline.create(options);
         
-        
-        PCollection<String> data= pipeline.apply(TextIO.read().from(gcsPath));
+        String project_id=options.getprojectId().get();
+        String database_name=options.getdatabase_name().get();
+        String collection_name=options.getcollection_name().get();
+        String batch_size=options.getbatch_Size().get();
+
+
+        PCollection<String> data= pipeline.apply("Read From GCS",TextIO.read().from(options.getGcsPath())); 
       
-        data.apply("Read JSON from GCS and Store in Firestore", ParDo.of(new GcstoFirestore()));
+        data.apply("Write to Firestore", ParDo.of(new GcstoFirestore(project_id,database_name,collection_name,batch_size)));
             
 
         // Run the pipeline
