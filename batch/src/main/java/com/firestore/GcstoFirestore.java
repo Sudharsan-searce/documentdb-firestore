@@ -66,8 +66,7 @@ public class GcstoFirestore extends DoFn<String, String> {
         for (String json : jsonLines) {
             // Parse each JSON object individually
             Map<String, Object> document = gson.fromJson(json, Map.class);
-            // document.remove("versions");
-            document.remove("authors_parsed");
+            
 
             // Create a new document reference
             DocumentReference docRef = collection.document();
