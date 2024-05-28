@@ -30,8 +30,8 @@ public class MainClass {
         String collection_name=options.getcollection_name().get();
         String batch_size=options.getbatch_Size().get();
 
-
-        PCollection<String> data= pipeline.apply("Read From GCS",TextIO.read().from(options.getGcsPath())); 
+       //start the pipeline
+        PCollection<String> data= pipeline.apply("Read From GCS",TextIO.read().from(options.getGcsPath().toString())); 
       
         data.apply("Write to Firestore", ParDo.of(new GcstoFirestore(project_id,database_name,collection_name,batch_size)));
             
