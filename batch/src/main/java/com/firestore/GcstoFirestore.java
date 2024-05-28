@@ -42,7 +42,7 @@ public class GcstoFirestore extends DoFn<String, String> {
         List<String> jsonLines = new ArrayList<>();
         String data=c.element(); // Input from previous pipeline
         
-
+         jsonLines.add(data); // append the input to the list
        // batch_processing
          processChunk(jsonLines, collection, gson);
          firestore.shutdown();
