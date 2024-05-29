@@ -24,12 +24,12 @@
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-firestore</artifactId>
-			<version>7.7.0</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.firebase</groupId>
 			<artifactId>firebase-admin</artifactId>
-			<version>9.2.0</version> <!-- Make sure to use the latest version -->
+			<version>9.2.0</version> 
 		</dependency>
 		<dependency>
 			<groupId>org.apache.beam</groupId>
