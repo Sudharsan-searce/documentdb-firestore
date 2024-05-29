@@ -15,12 +15,9 @@ public class MainClass {
         params options = PipelineOptionsFactory.fromArgs(args).as(params.class);
          
         options.setRunner(org.apache.beam.runners.dataflow.DataflowRunner.class);
-          
-        
-        
         // Create the pipeline
         Pipeline pipeline = Pipeline.create(options);
-        
+ 
         String project_id=options.getprojectId().get();
         String database_name=options.getdatabase_name().get();
         String collection_name=options.getcollection_name().get();
@@ -30,8 +27,6 @@ public class MainClass {
         PCollection<String> data= pipeline.apply("Read From GCS",TextIO.read().from(options.getGcsPath().toString())); 
       
         data.apply("Write to Firestore", ParDo.of(new GcstoFirestore(project_id,database_name,collection_name,batch_size)));
-            
-
         // Run the pipeline
         pipeline.run();
    
