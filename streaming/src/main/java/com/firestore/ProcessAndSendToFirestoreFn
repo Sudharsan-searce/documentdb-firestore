@@ -1,17 +1,18 @@
+package com.firestore;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import java.util.Map;
 import com.google.gson.Gson;
+import org.apache.beam.sdk.transforms.DoFn;
 import com.google.gson.reflect.TypeToken;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.gson.JsonSyntaxException;
 
-
- public static class ProcessAndSendToFirestoreFn extends DoFn<String, Void> {    // Define a DoFn class to process messages and send them to Firestore
+public class ProcessAndSendToFirestoreFn extends DoFn<String, Void> {
     private final String projectId,databaseName,collectionName;
 
-    ProcessAndSendToFirestoreFn(String projectId,String databaseName,String collectionName) {    // Constructor to initialize Firestore configuration
+    ProcessAndSendToFirestoreFn(String projectId,String databaseName,String collectionName) {
         this.projectId=projectId;
         this.databaseName=databaseName;
         this.collectionName=collectionName;
@@ -21,22 +22,22 @@ import com.google.gson.JsonSyntaxException;
         FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
                 .setProjectId(projectId)
                 .setDatabaseId(databaseName)
-                .build();    // Create Firestore client with the specified project and database IDs
+                .build();
         Firestore firestore = firestoreOptions.getService();
-     String message = c.element();                                            // Retrieve the message from the previous pipeline
-    CollectionReference collection = firestore.collection(collectionName);    // Reference the Firestore collection
-    String[] jsonFormat=message.split(",");                                   // Split and reassemble the message to ensure proper JSON formatting
-    String jsonText=String.join(",",jsonFormat);
-    Gson gson=new Gson();                                                     // Initialize Gson for JSON parsing
+     String message = c.element();  
+    CollectionReference collection = firestore.collection(collectionName);
+    // String[] jsonFormat=message.split(",");
+    // String jsonText=String.join(",",jsonFormat);
+    Gson gson=new Gson();
     try{
         try{
-            TypeToken<Map<String, Object>> typeToken = new TypeToken<Map<String, Object>>() {};    // Deserialize the JSON message to a map
+            TypeToken<Map<String, Object>> typeToken = new TypeToken<Map<String, Object>>() {};
             Map<String, Object> document = gson.fromJson(message, typeToken.getType());
-            if (document.containsKey("after")) {                                                   // Check if the 'after' field exists and process it
+            if (document.containsKey("after")) {
                 String afterString = document.get("after").toString();
                 Map<String, Object> afterMap = gson.fromJson(afterString, typeToken.getType());
-                collection.add(afterMap);                               // Add the processed document to Firestore
-            } else {        
+                collection.add(afterMap);
+            } else {
                 System.out.println("The message does not contain an 'after' field.");
             }
         }catch(JsonSyntaxException e)
@@ -45,7 +46,8 @@ import com.google.gson.JsonSyntaxException;
         }
     }finally
     {
-        firestore.close();                // Ensure Firestore client is closed after processing
+        firestore.close();
     }
 }
 }
+
