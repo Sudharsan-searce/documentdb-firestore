@@ -9,10 +9,10 @@ import com.google.gson.reflect.TypeToken;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.gson.JsonSyntaxException;
 
-public class WriteToFirestoreFn extends DoFn<String, Void> {
+public class WriteToFirestore extends DoFn<String, Void> {
     private final String projectId,databaseName,collectionName;
 
-    WriteToFirestoreFn(String projectId,String databaseName,String collectionName) {
+    WriteToFirestore(String projectId,String databaseName,String collectionName) {
         this.projectId=projectId;
         this.databaseName=databaseName;
         this.collectionName=collectionName;
