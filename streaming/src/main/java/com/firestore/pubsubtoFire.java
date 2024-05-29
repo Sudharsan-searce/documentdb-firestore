@@ -20,7 +20,7 @@ public class pubsubtoFire {
         PCollection<String> messages = pipeline.apply("ReadFromPubSub",
                 PubsubIO.readStrings().fromSubscription("projects/" + projectId + "/subscriptions/" + subscriptionName));
 
-        messages.apply("ProcessAndSendToFirestore", ParDo.of(new ProcessAndSendToFirestoreFn(projectId,databaseName,collectionName)));
+        messages.apply("ProcessAndSendToFirestore", ParDo.of(new WriteToFirestore(projectId,databaseName,collectionName)));
         pipeline.run();
     }
 }
