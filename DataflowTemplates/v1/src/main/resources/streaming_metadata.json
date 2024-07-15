@@ -1,0 +1,41 @@
+{
+    "name": "PubSubToFirestore",
+    "description": "A template to read messages from Pub/Sub and write to Firestore",
+    "parameters": [
+      {
+        "name": "projectId",
+        "label": "Project ID",
+        "helpText": "GCP project ID",
+        "paramType": "TEXT",
+        "isOptional": false
+      },
+      {
+        "name": "databaseId",
+        "label": "Database Name",
+        "helpText": "Firestore database name",
+        "paramType": "TEXT",
+        "isOptional": false
+      },
+      {
+        "name": "collectionName",
+        "label": "Collection Name",
+        "helpText": "Firestore collection name",
+        "paramType": "TEXT",
+        "isOptional": false
+      },
+      {
+        "name": "subscriptionName",
+        "label": "Subscription Name",
+        "helpText": "PubSub subscription name",
+        "paramType": "TEXT",
+        "isOptional": false
+      },
+      {
+        "name": "typeMappingPath",
+        "label": "TypeMapping JSON Path",
+        "helpText": "Gcs path for Typemapping JSON file",
+        "paramType": "TEXT",
+        "isOptional": false
+      }
+    ]
+  }
