@@ -1,0 +1,56 @@
+{
+  "name": "GcsToFirestore",
+  "description": "A template to read messages from GCS and write to Firestore",
+  "parameters": [
+    {
+      "name": "projectId",
+      "label": "Project ID",
+      "helpText": "GCP project ID",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "database_name",
+      "label": "Database Name",
+      "helpText": "Firestore database name",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "collection_name",
+      "label": "Collection Name",
+      "helpText": "Firestore collection name",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "gcsPath",
+      "label": "Path",
+      "helpText": "GCS path for the file to be loaded",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "failTopic",
+      "label": "Data Loss Topic",
+      "helpText": "PubSub fail data path for the file to be loaded",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "typeMappingPath",
+      "label": "TypeMapping Path",
+      "helpText": "GCS TypeMapping path for the file to be loaded",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "batch_Size",
+      "label": "Batch Size",
+      "helpText": "Chunk Size",
+      "paramType": "NUMBER",
+      "isOptional": false
+    }
+
+  ]
+}

@@ -1,0 +1,15 @@
+{
+    "DocumentDB_to_Firestore_Type_Mapping": {
+      "String": "string",
+      "Integer": "number",
+      "Boolean": "boolean",
+      "JSONObject": "map",
+      "JSONArray": "string",
+      "Null": "null",
+      "Binary": "bytes",
+      "Decimal128": "number",
+      "BigDecimal": "number",
+      "HashMap" : "map"
+    }
+  }
+
